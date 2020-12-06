@@ -22,7 +22,7 @@ class ConnectionManager:
 		client.srem("online_users", user_id)
 		del self.active_connections[user_id]
 
-	async def send_personal_message(self, message: str, websocket: WebSocket):
+	async def send_personal_message(self, websocket: WebSocket, message: str):
 		await websocket.send_text(message)
 
 	async def broadcast(self, message: str):

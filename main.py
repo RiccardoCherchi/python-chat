@@ -34,8 +34,10 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
 			data = await websocket.receive_text()
 			if data.startswith('!NICK'):
 				manager.id_to_nick[user_id] = data.replace('!NICK ', '', 1)
-			await manager.send_personal_message(f"You wrote: {data}", websocket)
-			await manager.broadcastToEveryoneExcept(websocket, f'{manager.id_to_nick[user_id]}: {data}')
+				await manager.send_personal_message( websocket, f'You changed your nick to {data.replace("!NICK ", "", 1)}' )
+			else:
+				await manager.send_personal_message(websocket, f"You wrote: {data}")
+				await manager.broadcastToEveryoneExcept(websocket, f'{manager.id_to_nick[user_id]}: {data}')
 	except WebSocketDisconnect:
 		manager.disconnect(websocket, user_id)
 		await manager.broadcastToEveryoneExcept(websocket, '{STATUS.LEFT}' + user_id)
