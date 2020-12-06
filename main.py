@@ -40,7 +40,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
 				await manager.broadcastToEveryoneExcept(websocket, f'{manager.id_to_nick[user_id]}: {data}')
 	except WebSocketDisconnect:
 		manager.disconnect(websocket, user_id)
-		await manager.broadcastToEveryoneExcept(websocket, '{STATUS.LEFT}' + user_id)
+		await manager.broadcast(f'{manager.id_to_nick[user_id]} has left the chat')
 
 
 if __name__ == "__main__":

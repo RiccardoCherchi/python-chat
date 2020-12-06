@@ -30,8 +30,6 @@ class ConnectionManager:
 			await connection.send_text(message)
 
 	async def broadcastToEveryoneExcept(self, conn: WebSocket, message: str):
-		if message.startswith('{STATUS.LEFT}'):
-			message = f'{self.id_to_nick[message.replace("{STATUS.LEFT}", "", 1)]} has left the chat'
 		for connection in self.active_connections.values():
 			if connection != conn:
 				await connection.send_text(message)
